@@ -8,4 +8,7 @@ api.get("/", (req, res) =>
   })
 );
 
+// api.use('/admin', admin)
+// api.use('/users', users)
+
 module.exports = api;
