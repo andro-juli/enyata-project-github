@@ -4,7 +4,7 @@ const api = express.Router();
 api.get("/", (req, res) =>
   res.status(200).json({
     status: "success",
-    message: "Welcome to R & A project",
+    message: "Welcome to the final project",
   })
 );
 
