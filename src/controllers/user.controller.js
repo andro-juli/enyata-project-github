@@ -1,5 +1,24 @@
-// const express = require('express')
+const UserService = require("../services/users.services");
 
-// const createNewUser = async (body) => {
-//     const {firstname, lastname, email, phone_number, password, confirm_password}
-// }
+const loginUser = async (req, res, next) => {
+  try {
+    const response = await UserService.loginUser(req.body);
+    return res.status(response.code).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const createUser = async (req, res, next) => {
+  try {
+    const response = await UserService.createUser(req.body);
+    return res.status(response.code).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  loginUser,
+  createUser,
+};
