@@ -20,8 +20,30 @@ const validateAdminLogin = (req, res, next) => {
   });
   baseValidatorForBody(schema, req, res, next);
 };
+const validateCreatedApplication = (req, res, next) => {
+  const schema = Joi.object({
+    batch_id: Joi.number().required(),
+    link: Joi.string().required(),
+    instructions: Joi.string().required(),
+    file_url: Joi.string().required(),
+    app_closure_date: Joi.string().required(),
+  });
+  baseValidatorForBody(schema, req, res, next);
+};
+
+const validateQuestions = (req, res, next) => {
+  const schema = Joi.object({
+    question_number: Joi.number().required(),
+    question_text: Joi.string().required(),
+    answers: Joi.array().required(),
+    correct_answer: Joi.number().required(),
+  });
+  baseValidatorForBody(schema, req, res, next);
+};
 
 module.exports = {
   validateAdminSignup,
   validateAdminLogin,
+  validateCreatedApplication,
+  validateQuestions,
 };

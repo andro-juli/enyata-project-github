@@ -7,10 +7,40 @@ const {
   addAdminUser,
   getAllRoles,
 } = require("../queries/admin");
+const {
+  addApplicationQuery,
+  findApplicationByBatchId,
+} = require("../queries/create_application");
+const {
+  addQuestionsQuery,
+  getQuestions,
+  findQuestionsById,
+  deleteQuestionsQuery,
+  getAllAnswers,
+} = require("../queries/questions");
 
 const findAdmin = async (email) => {
   const user = await runQuery(findAdminByEmail, [email]);
   return user;
+};
+
+const getAllQuestions = async () => {
+  const questions = await runQuery(getQuestions);
+  return {
+    status: "success",
+    message: "Questions fetched successfully",
+    code: 200,
+    data: questions,
+  };
+};
+const getAnswers = async () => {
+  const answers = await runQuery(getAllAnswers);
+  return {
+    status: "success",
+    message: "Answers fetched successfully",
+    code: 200,
+    data: answers,
+  };
 };
 
 const createAdmin = async (body) => {
@@ -115,7 +145,76 @@ const loginAdmin = async (body) => {
   };
 };
 
+const createApplication = async (body) => {
+  const { batch_id, link, instructions, file_url, app_closure_date } = body;
+
+  const application = await runQuery(findApplicationByBatchId, [batch_id]);
+  if (application.length > 0) {
+    throw {
+      status: "error",
+      message: "Application with batch_id already exist",
+      code: 409,
+      data: null,
+    };
+  }
+  const response = await runQuery(addApplicationQuery, [
+    batch_id,
+    link,
+    instructions,
+    file_url,
+    app_closure_date,
+  ]);
+  return {
+    status: "success",
+    message: "Application created successfully",
+    code: 201,
+    data: response[0],
+  };
+};
+
+const setQuestions = async (body) => {
+  const { id, batch_id, question_text, answers, correct_answer } = body;
+
+  const response = await runQuery(addQuestionsQuery, [
+    batch_id,
+    question_text,
+    answers,
+    correct_answer,
+  ]);
+  return {
+    status: "success",
+    message: "Questions created successfully",
+    code: 201,
+    data: response[0],
+  };
+};
+
+const deletequestion = async (id) => {
+  const question = await runQuery(findQuestionsById.anchor, [id]);
+  if (question.length === 0) {
+    question.splice(question, 1);
+    throw {
+      status: "error",
+      message: "Question not found",
+      code: 400,
+      data: null,
+    };
+  }
+  const response = await runQuery(deleteQuestionsQuery, [id]);
+  return {
+    status: "success",
+    message: "Question deleted successfully",
+    code: 200,
+    data: response[0],
+  };
+};
+
 module.exports = {
   loginAdmin,
   createAdmin,
+  createApplication,
+  setQuestions,
+  getAllQuestions,
+  deletequestion,
+  getAnswers,
 };

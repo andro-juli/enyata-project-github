@@ -1,3 +1,7 @@
+const getAllUsersQuery = `
+SELECT * FROM users
+`;
+
 /**
  * find user by email
  * - email
@@ -40,4 +44,5 @@ module.exports = {
   addUser,
   findUserByEmail,
   getAllRoles,
+  getAllUsersQuery,
 };

@@ -1,9 +1,5 @@
 const Joi = require("joi");
-const {
-  baseValidatorForBody,
-  baseValidatorForParams,
-  baseValidatorForQuery,
-} = require("./index");
+const { baseValidatorForBody, baseValidatorForParams } = require("./index");
 
 const validateUserSignup = (req, res, next) => {
   const schema = Joi.object({

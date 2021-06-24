@@ -7,7 +7,7 @@ const { verifyToken } = require("../middlewares/auth.middleware");
 const jwt = require("jsonwebtoken");
 const config = require("../config/env/index");
 
-router.post("/", verifyToken, upload.single("image"), async (req, res) => {
+router.post("/", upload.single("image"), async (req, res) => {
   try {
     // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);

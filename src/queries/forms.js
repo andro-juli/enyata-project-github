@@ -69,7 +69,8 @@ RETURNING
     address,
     university,
     program,
-    CGPA, 
+    CGPA,
+    image_cv,
     created_at,
     updated_at`;
 

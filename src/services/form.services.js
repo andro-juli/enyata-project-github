@@ -8,8 +8,9 @@ const {
   deleteFormQuery,
   getForms,
 } = require("../queries/forms");
-const { addImage } = require("../queries/forms");
 const { getAllRoles } = require("../queries/users");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const getAllForms = async () => {
   const forms = await runQuery(getForms);
@@ -35,13 +36,14 @@ const addForm = async (body) => {
 
   const form = await runQuery(findFormByEmail, [email]);
   if (form.length > 0) {
-    throw {
+    return {
       status: "error",
       message: "Form already exist",
       code: 409,
       data: null,
     };
   }
+
   const roles = await runQuery(getAllRoles);
   const userRole = roles.find((element) => element.type === "user");
   console.log(userRole);
@@ -127,7 +129,7 @@ const deleteForm = async (id) => {
 
 module.exports = {
   getAllForms,
-  addForm,
   updateForm,
   deleteForm,
+  addForm,
 };

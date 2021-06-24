@@ -5,12 +5,29 @@ const {
   appErrorHandler,
   genericErrorHandler,
 } = require("./src/middlewares/err.middleware");
+// const cors = require("cors");
 
-// initialize a variable called app
 const app = express();
 
-// Body Parse middleware to allow us to add a body
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, content-type, Accept, Authorization"
+  );
+  res.header("Access-Control-Allow-Credentials", true);
+  if (req.method === "OPTIONS") {
+    res.header(
+      "Access-Control-Allow-Methods",
+      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+    );
+    return res.status(200).json({});
+  }
+  next();
+});
 
 const PORT = process.env.PORT || 5005;
 

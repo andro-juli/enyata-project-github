@@ -36,7 +36,7 @@ const verifyToken = async (req, res, next) => {
 const verifyAdmin = async (req, res, next) => {
   const roles = await runQuery(getAllRoles);
   const adminRoles = roles.find((element) => element.type === "super_admin");
-  console.log(adminRoles);
+
   try {
     if (!adminRoles) {
       throw {

@@ -1,12 +1,27 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { runQuery } = require("../config/database.config");
-const { findUserByEmail, getAllRoles, addUser } = require("../queries/users");
+const {
+  findUserByEmail,
+  getAllRoles,
+  addUser,
+  getAllUsersQuery,
+} = require("../queries/users");
 const config = require("../config/env/index");
 
 const findUser = async (email) => {
   const user = await runQuery(findUserByEmail, [email]);
   return user;
+};
+
+const getExistingUsers = async () => {
+  const users = await runQuery(getAllUsersQuery);
+  return {
+    status: "success",
+    message: "Users fetched successfully",
+    code: 200,
+    data: users,
+  };
 };
 
 const loginUser = async (body) => {
@@ -106,4 +121,5 @@ module.exports = {
   loginUser,
   createUser,
   findUser,
+  getExistingUsers,
 };
