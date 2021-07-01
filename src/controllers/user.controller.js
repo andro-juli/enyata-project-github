@@ -17,9 +17,37 @@ const createUser = async (req, res, next) => {
     next(error);
   }
 };
+
+const saveScores = async (req, res, next) => {
+  try {
+    const response = await UserService.saveScores(req.body);
+    return res.status(response.code).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
 const getallUsers = async (req, res, next) => {
   try {
-    const response = await UserService.getExistingUsers(req.body);
+    const response = await UserService.getExistingUsers();
+    return res.status(response.code).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getAllScores = async (req, res, next) => {
+  try {
+    const response = await UserService.getUserScores();
+    return res.status(response.code).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getSingleUser = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const response = await UserService.getSingleUser(id);
     return res.status(response.code).json(response);
   } catch (error) {
     next(error);
@@ -30,4 +58,7 @@ module.exports = {
   loginUser,
   createUser,
   getallUsers,
+  getSingleUser,
+  saveScores,
+  getAllScores,
 };

@@ -7,9 +7,24 @@ SELECT answers FROM questions
 
 const addQuestionsQuery = `
 INSERT INTO 
-  questions( question_number, question_text, answers, correct_answer
+  questions( 
+    question_number,
+    question_text,
+    answerA,
+    answerB,
+    answerC,
+    answerD,
+    correct_answer
   ) 
-VALUES ($1,$2,$3,$4) RETURNING id, question_number,question_text, answers, correct_answer`;
+VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING
+    id, 
+    question_number,
+    question_text,
+    answerA,
+    answerB,
+    answerC,
+    answerD,
+    correct_answer `;
 
 const findQuestionsById = `
 SELECT 

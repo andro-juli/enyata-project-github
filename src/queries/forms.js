@@ -13,9 +13,11 @@ INSERT INTO
     university,
     program,
     CGPA,
+    files,
     user_id
   ) 
-VALUES ($1,$2,$3,$4,$5,$6,$7, $8, $9) RETURNING firstname, lastname, email, DOB, address, university, program, CGPA, id, user_id`;
+VALUES ($1,$2,$3,$4,$5,$6,$7, $8, $9,$10) RETURNING firstname, lastname, email, DOB, address, university, program, CGPA, files, id, user_id , created_at,
+    updated_at`;
 
 const addImage = `INSERT INTO
   images(
@@ -40,7 +42,9 @@ SELECT
     address,
     university,
     program,
-    CGPA
+    CGPA,
+    files, 
+    created_at
       FROM forms WHERE email=$1
 `;
 
@@ -54,12 +58,14 @@ SELECT
     address,
     university,
     program,
-    CGPA
+    CGPA, 
+    files,
+    created_at
       FROM forms WHERE id=$1
 `;
 
 const updateFormQuery = `
-UPDATE forms SET firstname=$1, lastname=$2, email=$3, DOB=$4, address=$5, university=$6, program=$7, CGPA=$8, created_at=NOW(), updated_at=NOW() WHERE id=$9
+UPDATE forms SET firstname=$1, lastname=$2, email=$3, DOB=$4, address=$5, university=$6, program=$7, CGPA=$8,files=$9, created_at=NOW(), updated_at=NOW() WHERE id=$10
 RETURNING 
     id, 
     firstname, 
@@ -70,7 +76,7 @@ RETURNING
     university,
     program,
     CGPA,
-    image_cv,
+    files,
     created_at,
     updated_at`;
 

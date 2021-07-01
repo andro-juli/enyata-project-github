@@ -22,6 +22,24 @@ const getAllForms = async () => {
   };
 };
 
+const getOneForm = async (id) => {
+  const form = await runQuery(findFormByFormId, [id]);
+  if (form.length === 0) {
+    throw {
+      status: "error",
+      message: "Form not found",
+      code: 400,
+      data: null,
+    };
+  }
+  return {
+    status: "success",
+    message: "Form returned successfully",
+    code: 200,
+    data: form,
+  };
+};
+
 const addForm = async (body) => {
   const {
     firstname,
@@ -32,6 +50,7 @@ const addForm = async (body) => {
     university,
     program,
     CGPA,
+    files,
   } = body;
 
   const form = await runQuery(findFormByEmail, [email]);
@@ -56,6 +75,7 @@ const addForm = async (body) => {
     university,
     program,
     CGPA,
+    files,
     userRole.id,
   ]);
   return {
@@ -132,4 +152,5 @@ module.exports = {
   updateForm,
   deleteForm,
   addForm,
+  getOneForm,
 };

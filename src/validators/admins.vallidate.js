@@ -35,8 +35,11 @@ const validateQuestions = (req, res, next) => {
   const schema = Joi.object({
     question_number: Joi.number().required(),
     question_text: Joi.string().required(),
-    answers: Joi.array().required(),
-    correct_answer: Joi.number().required(),
+    answerA: Joi.string().required(),
+    answerB: Joi.string().required(),
+    answerC: Joi.string().required(),
+    answerD: Joi.string().required(),
+    correct_answer: Joi.string().required(),
   });
   baseValidatorForBody(schema, req, res, next);
 };

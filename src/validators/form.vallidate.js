@@ -12,7 +12,7 @@ const validateNewApplicant = (req, res, next) => {
     university: Joi.string().required(),
     program: Joi.string().required(),
     CGPA: Joi.number().required(),
-    image_cv: Joi.string().required(),
+    files: Joi.string().required(),
   });
   baseValidatorForBody(schema, req, res, next);
 };

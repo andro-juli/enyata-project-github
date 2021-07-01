@@ -6,6 +6,9 @@ const {
   getAllRoles,
   addUser,
   getAllUsersQuery,
+  findUserById,
+  scores,
+  getAllScores,
 } = require("../queries/users");
 const config = require("../config/env/index");
 
@@ -21,6 +24,23 @@ const getExistingUsers = async () => {
     message: "Users fetched successfully",
     code: 200,
     data: users,
+  };
+};
+const getSingleUser = async (id) => {
+  const user = await runQuery(findUserById, [id]);
+  if (user.length === 0) {
+    throw {
+      status: "error",
+      message: "User not found",
+      code: 400,
+      data: null,
+    };
+  }
+  return {
+    status: "success",
+    message: "User returned successfully",
+    code: 200,
+    data: user,
   };
 };
 
@@ -117,9 +137,32 @@ const createUser = async (body) => {
   };
 };
 
+const saveScores = async (body) => {
+  const { firstname, lastname, score } = body;
+  const response = await runQuery(scores, [firstname, lastname, score]);
+  return {
+    status: "success",
+    code: 201,
+    message: "New user score added successfully",
+    data: response[0],
+  };
+};
+const getUserScores = async () => {
+  const score = await runQuery(getAllScores);
+  return {
+    status: "success",
+    message: "Scores fetched successfully",
+    code: 200,
+    data: score,
+  };
+};
+
 module.exports = {
   loginUser,
   createUser,
   findUser,
   getExistingUsers,
+  getSingleUser,
+  saveScores,
+  getUserScores,
 };

@@ -4,11 +4,17 @@ const {
   loginUser,
   createUser,
   getallUsers,
+  getSingleUser,
+  saveScores,
+  getAllScores,
 } = require("../controllers/user.controller");
 const { validateUserSignup, validateUserLogin } = require("../validators/user");
 
-router.get("/users", getallUsers);
+router.get("/", getallUsers);
+router.get("/:id", getSingleUser);
 router.post("/login", validateUserLogin, loginUser);
+router.post("/scores", saveScores);
+router.get("/scores", getAllScores);
 router.post("/signup", validateUserSignup, createUser);
 
 module.exports = router;

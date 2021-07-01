@@ -173,12 +173,23 @@ const createApplication = async (body) => {
 };
 
 const setQuestions = async (body) => {
-  const { id, batch_id, question_text, answers, correct_answer } = body;
+  const {
+    question_number,
+    question_text,
+    answerA,
+    answerB,
+    answerC,
+    answerD,
+    correct_answer,
+  } = body;
 
   const response = await runQuery(addQuestionsQuery, [
-    batch_id,
+    question_number,
     question_text,
-    answers,
+    answerA,
+    answerB,
+    answerC,
+    answerD,
     correct_answer,
   ]);
   return {

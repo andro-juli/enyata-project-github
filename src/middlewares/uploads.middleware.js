@@ -4,25 +4,24 @@ const { addFormQuery, findFormByEmail } = require("../queries/forms");
 const { runQuery } = require("../config/database.config");
 const { getAllRoles } = require("../queries/users");
 
-const uploadImage = async (req, res, next) => {
+const uploadImage = async (req, res) => {
   try {
     // Upload image to cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path);
-    const avatar = result.secure_url;
-    const cloudinary_id = result.public_id;
+    // const result = await cloudinary.uploader.upload(req.file.path);
+    // const avatar = result.secure_url;
+    // const cloudinary_id = result.public_id;
 
-    // const image_cv = req.file.path;
+    var firstname = req.body.firstname;
+    var lastname = req.body.lastname;
+    var email = req.body.email;
+    var DOB = req.body.DOB;
+    var address = req.body.address;
+    var university = req.body.university;
+    var program = req.body.program;
+    var CGPA = req.body.CGPA;
 
-    const {
-      firstname,
-      lastname,
-      email,
-      DOB,
-      address,
-      university,
-      program,
-      CGPA,
-    } = req.body;
+    const files = req.files;
+    console.log(files);
 
     const findForm = await runQuery(findFormByEmail, [email]);
     if (findForm.length > 0) {
@@ -45,7 +44,7 @@ const uploadImage = async (req, res, next) => {
       university,
       program,
       CGPA,
-      { image: [{ avatar }, { cloudinary_id }] },
+      files,
       userRole.id,
     ]);
     // Save user
